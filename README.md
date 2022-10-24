@@ -3,7 +3,8 @@ Showcasing the use of ConfigCat's Feature Flags in a Unity Application
 
 # How to use feature flags in Unity
 
-This repository contains a Unity project, where a button behaves differently by the change of the feature flag state (true or false), and direct the game from the game menu to two different game scenes (where one scene can be an unchanged original, while the other scene is open for all sorts of changes and tests).
+This repository contains a Unity project, where a button behaves differently by the change of the feature flag state (true or false). 
+That state directs the game from the game menu to two different game scenes.
 
 ![Cover Photo](/images/cover-photo.png) 
 
