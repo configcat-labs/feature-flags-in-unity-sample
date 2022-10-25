@@ -12,7 +12,7 @@ That state directs the game from the game menu to two different game scenes.
 
 ## Build & Run
 1. Clone this repository to a local folder
-2. Open the folder with Unity hub
+2. Open the "feature-flags-in-unity-sample-app" folder with Unity hub
 
 ## Learn more
 
