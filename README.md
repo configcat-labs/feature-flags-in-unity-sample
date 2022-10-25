@@ -1,6 +1,3 @@
-# feature-flags-in-unity-sample
-Showcasing the use of ConfigCat's Feature Flags in a Unity Application
-
 # How to use feature flags in Unity
 
 This repository contains a Unity project, where a button behaves differently by the change of the feature flag state (true or false). 
