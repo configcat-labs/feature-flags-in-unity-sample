@@ -10,7 +10,7 @@ public class FeatureFlag : MonoBehaviour{
     public static FeatureFlag instance;
     private static ConfigCatClient client = new ConfigCatClient("<ADD YOUR SDK KEY HERE>");
 
-    // Overiding the constructor so we can't create a new instance
+    // Overriding the constructor so we can't create a new instance
     private FeatureFlag(){}
 
     // Creating a Singleton
