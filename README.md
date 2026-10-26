@@ -27,7 +27,7 @@ This sample Unity project demonstrates how to use feature flags in Unity with C#
 
     <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1366" height="768" decoding="async" loading="lazy" class="zoomable" />
 
-3. Add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`.
+3. Add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`. Then, toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior. 
 
   <img alt="Auto-jump robot behavior when feature flag is on" src="auto-jump-robot-behavior-flag-on_96dpi.gif" width="1200" height="866" decoding="async" loading="lazy" class="zoomable" />
 
