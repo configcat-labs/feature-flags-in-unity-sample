@@ -1,12 +1,12 @@
 using System;
 using System.Globalization;
-using System.Threading;
 using ConfigCat.Client;
 using UnityEngine;
 
 public class SingletonServices : MonoBehaviour
 {
     private static SingletonServices instance;
+
     public static SingletonServices Instance => instance;
 
     [field: NonSerialized]
@@ -14,31 +14,39 @@ public class SingletonServices : MonoBehaviour
 
     private void Awake()
     {
-        if (Interlocked.CompareExchange(ref instance, this, null) is not null)
+        // Ensure only one instance exists.
+        if (instance != null && instance != this)
         {
-            // If another instance has been created already, get rid of this one.
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
 
-        ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get("YOUR_CONFIGCAT-SDK_KEY", options =>
-        {
-            options.Logger = new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
-        });
+        instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
+        // Keep the service available across scene changes.
+        DontDestroyOnLoad(gameObject);
+
+        // Initialize the ConfigCat client once.
+        ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
+            "YOUR_CONFIGCAT_SDK_KEY",
+            options =>
+            {
+                options.Logger =
+                    new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
+            }
+        );
     }
-
-    // Start is called before the first frame update
-    void Start() { }
-
-    // Update is called once per frame
-    void Update() { }
 
     private void OnDestroy()
     {
-        this.ConfigCatClient?.Dispose();
-        this.ConfigCatClient = null;
+        if (instance != this)
+        {
+            return;
+        }
+
+        ConfigCatClient?.Dispose();
+        ConfigCatClient = null;
+        instance = null;
     }
 
     private sealed class ConfigCatToUnityDebugLogAdapter : IConfigCatLogger
@@ -52,26 +60,41 @@ public class SingletonServices : MonoBehaviour
 
         public LogLevel LogLevel
         {
-            get => this.logLevel;
-            set { throw new NotSupportedException(); }
+            get => logLevel;
+            set => throw new NotSupportedException();
         }
 
-        public void Log(LogLevel level, LogEventId eventId, ref FormattableLogMessage message, Exception exception = null)
+        public void Log(
+            LogLevel level,
+            LogEventId eventId,
+            ref FormattableLogMessage message,
+            Exception exception = null)
         {
-            var eventIdString = eventId.Id.ToString(CultureInfo.InvariantCulture);
-            var exceptionString = exception is null ? string.Empty : Environment.NewLine + exception;
-            var logMessage = $"ConfigCat[{eventIdString}] {message.InvariantFormattedMessage}{exceptionString}";
+            var eventIdString =
+                eventId.Id.ToString(CultureInfo.InvariantCulture);
+
+            var exceptionString = exception == null
+                ? string.Empty
+                : Environment.NewLine + exception;
+
+            var logMessage =
+                $"ConfigCat[{eventIdString}] " +
+                $"{message.InvariantFormattedMessage}{exceptionString}";
+
             switch (level)
             {
                 case LogLevel.Error:
                     Debug.LogError(logMessage);
                     break;
+
                 case LogLevel.Warning:
                     Debug.LogWarning(logMessage);
                     break;
+
                 case LogLevel.Info:
                     Debug.Log(logMessage);
                     break;
+
                 case LogLevel.Debug:
                     Debug.Log(logMessage);
                     break;
