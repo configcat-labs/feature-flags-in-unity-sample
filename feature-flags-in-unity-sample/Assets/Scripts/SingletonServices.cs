@@ -42,13 +42,13 @@ public class SingletonServices : MonoBehaviour
                 options.Logger =
                     new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
 
-                // Update the snapshot when the feature flag data changes.
+                // Update the snapshot when the feature flag data changes using the ConfigChanged hook (https://configcat.com/docs/sdk-reference/dotnet/#hooks).
                 options.ConfigChanged += (_, _) =>
                     configCatSnapshot = ConfigCatClient?.Snapshot();
             }
         );
 
-        // Wait for the client to become ready before taking the first snapshot.
+        // Wait until the client to become before creating the first snapshot.
         await ConfigCatClient.WaitForReadyAsync();
 
         if (this == null || ConfigCatClient == null)
