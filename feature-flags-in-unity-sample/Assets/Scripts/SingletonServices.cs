@@ -17,8 +17,6 @@ public class SingletonServices : MonoBehaviour
 
     public static IConfigCatClientSnapshot ConfigCatSnapshot => configCatSnapshot;
 
-    public static bool IsReady => configCatSnapshot != null;
-
     private async void Awake()
     {
         // Ensure only one instance exists.
@@ -35,7 +33,7 @@ public class SingletonServices : MonoBehaviour
 
         // Initialize the ConfigCat client with Auto Polling
         ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
-            "YOUR_CONFIGCAT_SDK_KEY",
+            "configcat-sdk-1/ePDeCKAUtkKOomwjpP0MZA/z39x6KuziUKeka6qO1G8cQ",
             options =>
             {
                 options.PollingMode = PollingModes.AutoPoll();
@@ -48,7 +46,9 @@ public class SingletonServices : MonoBehaviour
             }
         );
 
-        // Wait until the client to become before creating the first snapshot.
+        // Wait until the client is ready before creating the first snapshot.
+        Debug.Log("[SingletonServices] Loading feature flags...");
+
         await ConfigCatClient.WaitForReadyAsync();
 
         if (this == null || ConfigCatClient == null)
@@ -57,6 +57,8 @@ public class SingletonServices : MonoBehaviour
         }
 
         configCatSnapshot = ConfigCatClient.Snapshot();
+
+        Debug.Log("[SingletonServices] Feature flags loaded.");
     }
 
     private void OnDestroy()
