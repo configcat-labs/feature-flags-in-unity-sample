@@ -12,7 +12,14 @@ public class SingletonServices : MonoBehaviour
     [field: NonSerialized]
     public IConfigCatClient ConfigCatClient { get; private set; }
 
-    private void Awake()
+    // Define ConfigCat Snapshot
+    private static volatile IConfigCatClientSnapshot configCatSnapshot;
+
+    public static IConfigCatClientSnapshot ConfigCatSnapshot => configCatSnapshot;
+
+    public static bool IsReady => configCatSnapshot != null;
+
+    private async void Awake()
     {
         // Ensure only one instance exists.
         if (instance != null && instance != this)
@@ -26,15 +33,30 @@ public class SingletonServices : MonoBehaviour
         // Keep the service available across scene changes.
         DontDestroyOnLoad(gameObject);
 
-        // Initialize the ConfigCat client once.
+        // Initialize the ConfigCat client with Auto Polling
         ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
-            "YOUR_CONFIGCAT_SDK_KEY",
+            "configcat-sdk-1/ePDeCKAUtkKOomwjpP0MZA/z39x6KuziUKeka6qO1G8cQ",
             options =>
             {
+                options.PollingMode = PollingModes.AutoPoll();
                 options.Logger =
                     new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
+
+                // Update the snapshot when the feature flag data changes.
+                options.ConfigChanged += (_, _) =>
+                    configCatSnapshot = ConfigCatClient?.Snapshot();
             }
         );
+
+        // Wait for the client to become ready before taking the first snapshot.
+        await ConfigCatClient.WaitForReadyAsync();
+
+        if (this == null || ConfigCatClient == null)
+        {
+            return;
+        }
+
+        configCatSnapshot = ConfigCatClient.Snapshot();
     }
 
     private void OnDestroy()
@@ -46,6 +68,7 @@ public class SingletonServices : MonoBehaviour
 
         ConfigCatClient?.Dispose();
         ConfigCatClient = null;
+        configCatSnapshot = null;
         instance = null;
     }
 

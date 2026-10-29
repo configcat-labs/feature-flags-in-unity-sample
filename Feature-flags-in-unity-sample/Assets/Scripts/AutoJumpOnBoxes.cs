@@ -1,7 +1,3 @@
-
-using System;
-using System.Collections;
-using System.Threading.Tasks;
 using StarterAssets;
 using UnityEngine;
 
@@ -13,7 +9,6 @@ public class AutoJumpOnBoxes : MonoBehaviour
     [SerializeField] private float forwardOffset = 0.3f;
     [SerializeField] private float clearanceMargin = 0.15f;
     [SerializeField] private float retryInterval = 1f;
-    [SerializeField] private float flagRefreshInterval = 2f;
 
     private const int MaxOverlaps = 8;
 
@@ -23,9 +18,7 @@ public class AutoJumpOnBoxes : MonoBehaviour
 
     private readonly Collider[] overlapBuffer = new Collider[MaxOverlaps];
 
-    private bool isAutoJumpEnabled;
-    private bool isFlagReady;
-    private bool isRefreshingFlag;
+    private bool? lastLoggedFlagValue;
 
     private void Awake()
     {
@@ -43,79 +36,29 @@ public class AutoJumpOnBoxes : MonoBehaviour
         }
     }
 
-    private void Start()
+    private bool IsAutoJumpEnabled()
     {
-        StartCoroutine(RefreshFeatureFlagPeriodically());
-    }
+        // The snapshot is null until the ConfigCat client is ready.
+        var snapshot = SingletonServices.ConfigSnapshot;
 
-    private IEnumerator RefreshFeatureFlagPeriodically()
-    {
-        while (true)
+        if (snapshot == null)
         {
-            if (!isRefreshingFlag)
-            {
-                _ = RefreshFeatureFlagAsync();
-            }
-
-            yield return new WaitForSeconds(
-                Mathf.Max(0.1f, flagRefreshInterval)
-            );
+            return false;
         }
-    }
+        bool featureFlagValue = snapshot.GetValue(featureFlagKey, false);
 
-    private async Task RefreshFeatureFlagAsync()
-    {
-        isRefreshingFlag = true;
-
-        try
+        if (lastLoggedFlagValue != featureFlagValue)
         {
-            var services = SingletonServices.Instance;
-
-            if (services == null || services.ConfigCatClient == null)
-            {
-                return;
-            }
-
-            bool featureFlagValue = await services.ConfigCatClient.GetValueAsync(
-                featureFlagKey,
-                false
-            );
-
-            // The component may have been destroyed or disabled
-            // while awaiting the result.
-            if (this == null || !isActiveAndEnabled)
-            {
-                return;
-            }
-
-            if (!isFlagReady || isAutoJumpEnabled != featureFlagValue)
-            {
-                Debug.Log(
-                    $"[AutoJumpOnBoxes] {featureFlagKey} = {featureFlagValue}"
-                );
-            }
-
-            isAutoJumpEnabled = featureFlagValue;
-            isFlagReady = true;
+            Debug.Log($"[AutoJumpOnBoxes] {featureFlagKey} = {featureFlagValue}");
+            lastLoggedFlagValue = featureFlagValue;
         }
-        catch (Exception exception)
-        {
-            if (this != null)
-            {
-                Debug.LogException(exception);
-            }
-        }
-        finally
-        {
-            isRefreshingFlag = false;
-        }
+
+        return featureFlagValue;
     }
 
     private void Update()
     {
-        if (!isFlagReady ||
-            !isAutoJumpEnabled ||
-            !thirdPersonController.Grounded)
+        if (!IsAutoJumpEnabled() || !thirdPersonController.Grounded)
         {
             return;
         }
