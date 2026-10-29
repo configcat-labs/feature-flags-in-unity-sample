@@ -35,7 +35,7 @@ public class SingletonServices : MonoBehaviour
 
         // Initialize the ConfigCat client with Auto Polling
         ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
-            "configcat-sdk-1/ePDeCKAUtkKOomwjpP0MZA/z39x6KuziUKeka6qO1G8cQ",
+            "YOUR_CONFIGCAT_SDK_KEY",
             options =>
             {
                 options.PollingMode = PollingModes.AutoPoll();

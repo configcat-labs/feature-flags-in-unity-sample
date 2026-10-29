@@ -39,7 +39,7 @@ public class AutoJumpOnBoxes : MonoBehaviour
     private bool IsAutoJumpEnabled()
     {
         // The snapshot is null until the ConfigCat client is ready.
-        var snapshot = SingletonServices.ConfigSnapshot;
+        var snapshot = SingletonServices.ConfigCatSnapshot;
 
         if (snapshot == null)
         {
