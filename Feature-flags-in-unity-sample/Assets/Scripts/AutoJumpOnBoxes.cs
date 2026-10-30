@@ -1,6 +1,7 @@
 using StarterAssets;
 using UnityEngine;
 
+[RequireComponent(typeof(ThirdPersonController))]
 public class AutoJumpOnBoxes : MonoBehaviour
 {
     [SerializeField] private string featureFlagKey = "autoJumpOnBoxes";
@@ -23,17 +24,6 @@ public class AutoJumpOnBoxes : MonoBehaviour
     private void Awake()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
-
-        // The Third Person Controller (Script) must be attached to the Robot
-        if (thirdPersonController == null)
-        {
-            Debug.LogError(
-                "[AutoJumpOnBoxes] Attach this to the object that has " +
-                "ThirdPersonController (Robot).",
-                this
-            );
-            enabled = false;
-        }
     }
 
     private bool IsAutoJumpEnabled()
