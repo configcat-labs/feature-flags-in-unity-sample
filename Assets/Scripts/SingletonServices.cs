@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using ConfigCat.Client;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
 
 public class SingletonServices : MonoBehaviour
@@ -81,7 +80,7 @@ public class SingletonServices : MonoBehaviour
 
             await ConfigCatClient.WaitForReadyAsync();
 
-            latestConfigCatSnapshot ??= ConfigCatClient.Snapshot();
+            latestConfigCatClientSnapshot ??= ConfigCatClient.Snapshot();
 
             Debug.Log($"[{nameof(SingletonServices)}] Feature flags loaded.");
 
@@ -122,7 +121,7 @@ public class SingletonServices : MonoBehaviour
 
         ConfigCatClient?.Dispose();
         ConfigCatClient = null;
-        latestConfigCatSnapshot = null;
+        latestConfigCatClientSnapshot = null;
         instance = null;
     }
 
