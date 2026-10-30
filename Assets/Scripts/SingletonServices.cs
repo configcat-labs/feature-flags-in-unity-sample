@@ -16,9 +16,9 @@ public class SingletonServices : MonoBehaviour
     public IConfigCatClient ConfigCatClient { get; private set; }
 
     [NonSerialized]
-    private volatile IConfigCatClientSnapshot latestConfigCatSnapshot;
+    private volatile IConfigCatClientSnapshot latestConfigCatClientSnapshot;
 
-    public IConfigCatClientSnapshot LatestConfigCatClientSnapshot => latestConfigCatSnapshot;
+    public IConfigCatClientSnapshot LatestConfigCatClientSnapshot => latestConfigCatClientSnapshot;
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class SingletonServices : MonoBehaviour
                     // Update the snapshot when the feature flag data changes using the ConfigChanged hook
                     // (https://configcat.com/docs/sdk-reference/dotnet/#hooks).
                     options.ConfigChanged += (s, _) =>
-                        latestConfigCatSnapshot = ((IConfigCatClient)s).Snapshot();
+                        latestConfigCatClientSnapshot = ((IConfigCatClient)s).Snapshot();
                 }
             );
         }
@@ -97,7 +97,9 @@ public class SingletonServices : MonoBehaviour
             const float minimumDisplayTime = 2f;
             float elapsed = Time.time - start;
             if (elapsed < minimumDisplayTime)
+            {
                 await Task.Delay((int)((minimumDisplayTime - elapsed) * 1000));
+            }
 
             op.allowSceneActivation = true;
         }
