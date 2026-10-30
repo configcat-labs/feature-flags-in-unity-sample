@@ -29,7 +29,7 @@ public class AutoJumpOnBoxes : MonoBehaviour
     private bool IsAutoJumpEnabled()
     {
         // The snapshot variable is null until the ConfigCat client is ready.
-        var snapshot = SingletonServices.ConfigCatSnapshot;
+        var snapshot = SingletonServices.Instance.LatestConfigCatClientSnapshot;
 
         if (snapshot == null)
         {
@@ -39,7 +39,7 @@ public class AutoJumpOnBoxes : MonoBehaviour
 
         if (lastLoggedFlagValue != featureFlagValue)
         {
-            Debug.Log($"[AutoJumpOnBoxes] {featureFlagKey} = {featureFlagValue}");
+            Debug.Log($"[{nameof(AutoJumpOnBoxes)}] {featureFlagKey} = {featureFlagValue}");
             lastLoggedFlagValue = featureFlagValue;
         }
 
