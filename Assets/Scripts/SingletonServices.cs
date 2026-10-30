@@ -1,7 +1,10 @@
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using ConfigCat.Client;
 using UnityEngine;
+using UnityEngine.Diagnostics;
+using UnityEngine.SceneManagement;
 
 public class SingletonServices : MonoBehaviour
 {
@@ -12,12 +15,12 @@ public class SingletonServices : MonoBehaviour
     [field: NonSerialized]
     public IConfigCatClient ConfigCatClient { get; private set; }
 
-    // Define ConfigCat Snapshot
-    private static volatile IConfigCatClientSnapshot configCatSnapshot;
+    [NonSerialized]
+    private volatile IConfigCatClientSnapshot latestConfigCatSnapshot;
 
-    public static IConfigCatClientSnapshot ConfigCatSnapshot => configCatSnapshot;
+    public IConfigCatClientSnapshot LatestConfigCatClientSnapshot => latestConfigCatSnapshot;
 
-    private async void Awake()
+    private void Awake()
     {
         // Ensure only one instance exists.
         if (instance != null && instance != this)
@@ -31,34 +34,81 @@ public class SingletonServices : MonoBehaviour
         // Keep the service available across scene changes.
         DontDestroyOnLoad(gameObject);
 
-        // Initialize the ConfigCat client with Auto Polling
-        ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
-            "configcat-sdk-1/ePDeCKAUtkKOomwjpP0MZA/z39x6KuziUKeka6qO1G8cQ",
-            options =>
-            {
-                options.PollingMode = PollingModes.AutoPoll();
-                options.Logger =
-                    new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
+#if DEBUG
+        var sdkKey = "YOUR-CONFIGCAT-SDK-KEY-FOR-DEVELOPMENT";
+        var pollInterval = TimeSpan.FromSeconds(5);
+#else
+        var sdkKey = "YOUR-CONFIGCAT-SDK-KEY-FOR-PRODUCTION";
+        var pollInterval = TimeSpan.FromSeconds(60);
+#endif
 
-                // Update the snapshot when the feature flag data changes using the ConfigChanged hook (https://configcat.com/docs/sdk-reference/dotnet/#hooks).
-                options.ConfigChanged += (_, _) =>
-                    configCatSnapshot = ConfigCatClient?.Snapshot();
-            }
-        );
-
-        // Wait until the client is ready before creating the first snapshot.
-        Debug.Log("[SingletonServices] Loading feature flags...");
-
-        await ConfigCatClient.WaitForReadyAsync();
-
-        if (this == null || ConfigCatClient == null)
+        // Initialize the ConfigCat client with Auto Polling.
+        try
         {
-            return;
+            ConfigCatClient = ConfigCat.Client.ConfigCatClient.Get(
+                sdkKey,
+                options =>
+                {
+                    options.PollingMode = PollingModes.AutoPoll(pollInterval);
+
+                    options.Logger =
+                        new ConfigCatToUnityDebugLogAdapter(LogLevel.Warning);
+
+                    // Update the snapshot when the feature flag data changes using the ConfigChanged hook
+                    // (https://configcat.com/docs/sdk-reference/dotnet/#hooks).
+                    options.ConfigChanged += (s, _) =>
+                        latestConfigCatSnapshot = ((IConfigCatClient)s).Snapshot();
+                }
+            );
         }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[{nameof(SingletonServices)}] Failed to create ConfigCat client. {ex}");
+#if !DEBUG
+            Utils.ForceCrash(ForcedCrashCategory.FatalError);
+#endif
+        }
+    }
 
-        configCatSnapshot = ConfigCatClient.Snapshot();
+    async void Start()
+    {
+        try
+        {
+            float start = Time.time;
 
-        Debug.Log("[SingletonServices] Feature flags loaded.");
+            // Wait until the client is ready before creating the first snapshot.
+            Debug.Log($"[{nameof(SingletonServices)}] Loading feature flags...");
+
+            await ConfigCatClient.WaitForReadyAsync();
+
+            latestConfigCatSnapshot ??= ConfigCatClient.Snapshot();
+
+            Debug.Log($"[{nameof(SingletonServices)}] Feature flags loaded.");
+
+            AsyncOperation op = SceneManager.LoadSceneAsync("GetStarted_Scene");
+            op.allowSceneActivation = false;
+
+            while (op.progress < 0.9f)
+            {
+                await Task.Yield();
+            }
+
+            // Ensure the loading screen is visible for at least minimumDisplayTime
+            const float minimumDisplayTime = 2f;
+            float elapsed = Time.time - start;
+            if (elapsed < minimumDisplayTime)
+                await Task.Delay((int)((minimumDisplayTime - elapsed) * 1000));
+
+            op.allowSceneActivation = true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[{nameof(SingletonServices)}] Start up failed. {ex}");
+#if !DEBUG
+            Utils.ForceCrash(ForcedCrashCategory.FatalError);
+#endif
+
+        }
     }
 
     private void OnDestroy()
@@ -70,7 +120,7 @@ public class SingletonServices : MonoBehaviour
 
         ConfigCatClient?.Dispose();
         ConfigCatClient = null;
-        configCatSnapshot = null;
+        latestConfigCatSnapshot = null;
         instance = null;
     }
 
