@@ -28,9 +28,11 @@ This sample project demonstrates how to use ConfigCat feature flags in Unity wit
 
 3. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
 
+4. In the **Project** window, go to `Assets/Scenes` and double-click `Loading_Scene` to open it, then click **Play**. The loading scene initializes the ConfigCat client and then loads `GetStarted_Scene` automatically.
+
     <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1366" height="768" decoding="async" loading="lazy" class="zoomable" />
 
-4. Toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior.
+5. Toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior.
 
   <img alt="Auto-jump robot behavior when feature flag is on" src="auto-jump-robot-behavior-flag-on_96dpi.gif" width="1200" height="866" decoding="async" loading="lazy" class="zoomable" />
 
