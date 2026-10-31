@@ -2,7 +2,7 @@
 
 **[Read the blog post here](https://configcat.com/blog/using-feature-flags-in-unity)**
 
-This sample Unity project demonstrates how to use feature flags in Unity with C# and ConfigCat's .NET SDK. In this project, a feature flag controls a robot's ability to jump onto boxes automatically.
+This sample project demonstrates how to use ConfigCat feature flags in Unity with C# and ConfigCat's .NET SDK to control a robot's ability to automatically jump onto boxes without changing or rebuilding the project.
 
 ## Build & Run
 
@@ -24,11 +24,13 @@ This sample Unity project demonstrates how to use feature flags in Unity with C#
     git clone https://github.com/configcat-labs/feature-flags-in-unity-sample.git
     ```
 
-2. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
+2. Open the project in your code editor and add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`.
+
+3. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
 
     <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1366" height="768" decoding="async" loading="lazy" class="zoomable" />
 
-3. Add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`. Then, toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior. 
+4. Toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior.
 
   <img alt="Auto-jump robot behavior when feature flag is on" src="auto-jump-robot-behavior-flag-on_96dpi.gif" width="1200" height="866" decoding="async" loading="lazy" class="zoomable" />
 
