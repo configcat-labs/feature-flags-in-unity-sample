@@ -9,11 +9,12 @@ This sample Unity project demonstrates how to use feature flags in Unity with C#
 ### Prerequisites
 
 - A computer that meets the [system requirements for Unity](https://docs.unity.com/en-us/engine/6000.6/manual/get-started/install-and-upgrade/getting-started-installing-unity/system-requirements#desktop).
-- [Unity Hub](https://unity.com/download) and the Unity 6 Editor installed.
+- [Unity Hub](https://unity.com/download) and the Editor for Unity 6.6 (6000.6) installed.
 - [Visual Studio Code](https://code.visualstudio.com/) with the [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) and [Unity](https://code.visualstudio.com/docs/other/unity) extensions installed.
 - The [Microsoft .NET SDK](https://dotnet.microsoft.com/en-us/download/) installed.
 - The [ConfigCat .NET SDK version 10.0.0](https://www.nuget.org/packages/ConfigCat.Client/10.0.0).
-- [Git](https://git-scm.com/downloads) installed to clone this sample project.
+- [Git](https://git-scm.com/downloads) installed to clone the sample project.
+- A [ConfigCat account](https://app.configcat.com/auth/signup) to create and manage feature flags. 
 
 ### Building and running the project
 
@@ -23,7 +24,7 @@ This sample Unity project demonstrates how to use feature flags in Unity with C#
     git clone https://github.com/configcat-labs/feature-flags-in-unity-sample.git
     ```
 
-2. Launch the project in Unity.
+2. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
 
     <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1366" height="768" decoding="async" loading="lazy" class="zoomable" />
 
@@ -45,9 +46,10 @@ You can also explore other code samples for various languages, frameworks, and t
 
 Keep up with ConfigCat on [X](https://x.com/configcat), [Facebook](https://www.facebook.com/configcat), [LinkedIn](https://www.linkedin.com/company/configcat/), [GitHub](https://github.com/configcat), and the [News & Product Updates](https://configcat.com/docs/news/) page.
 
-## Author
+## Authors
 
-[Chavez Harris](https://github.com/codedbychavez)
+- [Chavez Harris](https://github.com/codedbychavez)
+- [adams85](https://github.com/adams85)
 
 ## Contributions
 
