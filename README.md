@@ -1,33 +1,56 @@
-# How to use feature flags in Unity
+# How to Use Feature Flags in Unity Sample Project
 
-This repository contains a Unity project, where a button behaves differently by the change of the feature flag state (true or false). 
-That state directs the game from the game menu to two different game scenes.
+**[Read the blog post here](https://configcat.com/blog/using-feature-flags-in-unity)**
 
-![Cover Photo](/images/cover-photo.png) 
-
-## This project is using:
-- .NET framework 2.1
-- ConfigCat client version 6.5.3
-- Unity version 2021.3.11f1
+This sample Unity project demonstrates how to use feature flags in Unity with C# and ConfigCat's .NET SDK. In this project, a feature flag controls a robot's ability to jump onto boxes automatically.
 
 ## Build & Run
-1. Clone this repository to a local folder
-2. Open the "feature-flags-in-unity-sample-app" folder with Unity hub
+
+### Prerequisites
+
+- A computer that meets the [system requirements for Unity](https://docs.unity.com/en-us/engine/6000.6/manual/get-started/install-and-upgrade/getting-started-installing-unity/system-requirements#desktop).
+- [Unity Hub](https://unity.com/download) and the Editor for Unity 6.6 (6000.6) installed.
+- [Visual Studio Code](https://code.visualstudio.com/) with the [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) and [Unity](https://code.visualstudio.com/docs/other/unity) extensions installed.
+- The [Microsoft .NET SDK](https://dotnet.microsoft.com/en-us/download/) installed.
+- The [ConfigCat .NET SDK version 10.0.0](https://www.nuget.org/packages/ConfigCat.Client/10.0.0).
+- [Git](https://git-scm.com/downloads) installed to clone the sample project.
+- A [ConfigCat account](https://app.configcat.com/auth/signup) to create and manage feature flags. 
+
+### Building and running the project
+
+1. Clone this sample project.
+
+    ```bash
+    git clone https://github.com/configcat-labs/feature-flags-in-unity-sample.git
+    ```
+
+2. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
+
+    <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1366" height="768" decoding="async" loading="lazy" class="zoomable" />
+
+3. Add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`. Then, toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior. 
+
+  <img alt="Auto-jump robot behavior when feature flag is on" src="auto-jump-robot-behavior-flag-on_96dpi.gif" width="1200" height="866" decoding="async" loading="lazy" class="zoomable" />
 
 ## Learn more
 
-Useful links to technical resources:
-- Learn [C#](https://learn.microsoft.com/en-us/dotnet/csharp/)
-- Learn [UnityEngine](https://docs.unity3d.com/Manual/index.html)
+Useful links to technical resources.
 
-[**ConfigCat**](https://configcat.com) also supports many other frameworks and languages. Check out the full list of supported SDKs [here](https://configcat.com/docs/sdk-reference/overview/).
+- [Unity Documentation](https://docs.unity.com/en-us)
+- [ConfigCat .NET SDK documentation](https://configcat.com/docs/sdk-reference/dotnet/)
+- [Using the ConfigCat SDK in Unity documentation](https://configcat.com/docs/sdk-reference/unity/)
 
-You can also explore other code samples for various languages, frameworks, and topics here in the [ConfigCat labs](https://github.com/configcat-labs) on GitHub.
+[**ConfigCat**](https://configcat.com) supports many other frameworks and languages. Check out the full list of supported SDKs [here](https://configcat.com/docs/sdk-reference/overview/).
 
-Keep up with ConfigCat on [Twitter](https://twitter.com/configcat), [Facebook](https://www.facebook.com/configcat), [LinkedIn](https://www.linkedin.com/company/configcat/), and [GitHub](https://github.com/configcat).
+You can also explore other code samples for various languages, frameworks, and topics in [ConfigCat labs](https://github.com/configcat-labs) on GitHub.
 
-## Author
-[EMIL KOVAČEVIĆ](https://github.com/emilkovacevic)
+Keep up with ConfigCat on [X](https://x.com/configcat), [Facebook](https://www.facebook.com/configcat), [LinkedIn](https://www.linkedin.com/company/configcat/), [GitHub](https://github.com/configcat), and the [News & Product Updates](https://configcat.com/docs/news/) page.
+
+## Authors
+
+- [Chavez Harris](https://github.com/codedbychavez)
+- [adams85](https://github.com/adams85)
 
 ## Contributions
+
 Contributions are welcome!
