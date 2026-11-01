@@ -30,17 +30,18 @@ This sample project demonstrates how to use ConfigCat feature flags in Unity wit
 
 4. In the **Project** window, go to `Assets/Scenes` and double-click `Loading_Scene` to open it, then click **Play**. The loading scene runs the `SingletonServices.cs` script to initialize the ConfigCat client and then loads `GetStarted_Scene` automatically.
 
+    <!-- TODO: -->
     <img alt="Demo Unity project launched" src="demo-unity-project_192dpi.png" width="1407" height="944" decoding="async" loading="lazy" class="zoomable" />
 
 5. Toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior.
 
   When the feature flag is off:
 
-    <img alt="Player robot default behavior" src="player-robot-default-behavior_96dpi.gif" width="1200" height="805" decoding="async" loading="lazy" class="zoomable" />
+    <img alt="Player robot flag off behavior" src="player-robot-flag-off-behavior.gif" width="1200" decoding="async" loading="lazy" />
 
   When the feature flag is on:
 
-    <img alt="Player robot flag on behavior" src="player-robot-flag-on-behavior_96dpi.gif" width="1200" height="805" decoding="async" loading="lazy" class="zoomable" />
+    <img alt="Player robot flag on behavior" src="player-robot-flag-on-behavior.gif" width="1200" decoding="async" loading="lazy" />
 
 ## Learn more
 
