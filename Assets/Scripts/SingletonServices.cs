@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using ConfigCat.Client;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.SceneManagement;
 
 public class SingletonServices : MonoBehaviour
