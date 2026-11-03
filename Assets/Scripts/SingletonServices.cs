@@ -36,7 +36,7 @@ public class SingletonServices : MonoBehaviour
 
 #if DEBUG
         var sdkKey = "YOUR-CONFIGCAT-SDK-KEY-FOR-DEVELOPMENT";
-        var pollInterval = TimeSpan.FromSeconds(2);
+        var pollInterval = TimeSpan.FromSeconds(5);
 #else
         var sdkKey = "YOUR-CONFIGCAT-SDK-KEY-FOR-PRODUCTION";
         var pollInterval = TimeSpan.FromSeconds(60);
