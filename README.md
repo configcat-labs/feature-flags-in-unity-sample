@@ -1,4 +1,4 @@
-# How to Use Feature Flags in Unity Sample Project (Starter Code)
+# How to Use Feature Flags in Unity Sample Project
 
 **[Read the blog post here](https://configcat.com/blog/using-feature-flags-in-unity)**
 
@@ -24,13 +24,23 @@ This sample project demonstrates how to use ConfigCat feature flags in Unity wit
     git clone https://github.com/configcat-labs/feature-flags-in-unity-sample.git
     ```
 
-2. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
+2. Open the project in your code editor and add your ConfigCat SDK Key to `Assets/Scripts/SingletonServices.cs`, and your feature flag key to `Assets/Scripts/AutoJumpOnBoxes.cs`.
 
-    <img alt="Demo Unity project launched" src="demo-unity-project.png" width="1200" decoding="async" loading="lazy" class="zoomable" />
+3. Open Unity Hub, click **Add** > **Add project from disk**, select the cloned `feature-flags-in-unity-sample` folder, and open the project in Unity.
 
-3. In the **Project** window, go to `Assets/Scenes` and double-click `GetStarted_Scene` to open it, then click **Play**.
+4. In the **Project** window, go to `Assets/Scenes` and double-click `Loading_Scene` to open it, then click **Play**. The loading scene runs the `SingletonServices.cs` script to initialize the ConfigCat client and then loads `GetStarted_Scene` automatically.
 
-    <img alt="Default robot behavior" src="player-robot-default-behavior.gif" width="1200" decoding="async" loading="lazy" class="zoomable" />
+    <img alt="Demo Unity project launched" src="demo-unity-project.png" width="1200" decoding="async" loading="lazy" />
+
+5. Toggle the feature flag ON and OFF in your [ConfigCat Dashboard](https://app.configcat.com) to toggle the robot's jump behavior.
+
+      When the feature flag is off:
+    
+      <img alt="Player robot flag off behavior" src="player-robot-flag-off-behavior.gif" width="1200" decoding="async" loading="lazy" />
+
+      When the feature flag is on:
+    
+      <img alt="Player robot flag on behavior" src="player-robot-flag-on-behavior.gif" width="1200" decoding="async" loading="lazy" />
 
 ## Learn more
 
