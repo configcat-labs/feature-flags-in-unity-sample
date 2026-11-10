@@ -59,7 +59,7 @@ Keep up with ConfigCat on [X](https://x.com/configcat), [Facebook](https://www.f
 ## Authors
 
 - [Chavez Harris](https://github.com/codedbychavez)
-- [adams85](https://github.com/adams85)
+- [Adam Simon](https://github.com/adams85)
 
 ## Contributions
 
